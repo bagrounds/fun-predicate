@@ -3,6 +3,7 @@
 Construct predicate functions that can be combined with logical operators.
 
 [![Build Status][1]][2]
+
 ## [Test Coverage][3]
 
 ## [API Docs][4]
