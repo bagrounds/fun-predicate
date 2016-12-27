@@ -25,9 +25,16 @@
   Predicate.prototype.and = function (predicate) {
     var me = this
 
-    return Predicate(function (subject) {
+    var newPredicate = function (subject) {
       return me.evaluate(subject) && predicate.evaluate(subject)
-    })
+    }
+
+    var newName = '(' + me.evaluate.name + ') AND (' + predicate.evaluate.name +
+      ')'
+
+    newPredicate = setName(newPredicate, newName)
+
+    return Predicate(newPredicate)
   }
 
   /**
@@ -38,9 +45,16 @@
   Predicate.prototype.or = function (predicate) {
     var me = this
 
-    return Predicate(function (subject) {
+    var newPredicate = function (subject) {
       return me.evaluate(subject) || predicate.evaluate(subject)
-    })
+    }
+
+    var newName = '(' + me.evaluate.name + ') OR (' + predicate.evaluate.name +
+      ')'
+
+    newPredicate = setName(newPredicate, newName)
+
+    return Predicate(newPredicate)
   }
 
   /**
@@ -50,9 +64,15 @@
   Predicate.prototype.not = function () {
     var me = this
 
-    return Predicate(function (subject) {
+    var newPredicate = function (subject) {
       return !me.evaluate(subject)
-    })
+    }
+
+    var newName = 'NOT(' + me.evaluate.name + ')'
+
+    newPredicate = setName(newPredicate, newName)
+
+    return Predicate(newPredicate)
   }
 
   /**
@@ -61,6 +81,15 @@
    */
   Predicate.prototype.same = function () {
     return this
+  }
+
+  /**
+   *
+   * @param {*} subject to evaluate
+   * @return {String} subject should predicateFunctionName
+   */
+  Predicate.prototype.toString = function toString (subject) {
+    return subject + ' should ' + this.evaluate.name
   }
 
   /**
@@ -77,6 +106,14 @@
    */
   Predicate.no = function () {
     return false
+  }
+
+  function setName (aFunction, newName) {
+    var description = {
+      value: newName
+    }
+
+    return Object.defineProperty(aFunction, 'name', description)
   }
 })()
 
