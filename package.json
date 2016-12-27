@@ -1,6 +1,6 @@
 {
   "name": "fun-predicate",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Construct predicate functions that can be combined with logical operators.",
   "main": "src/index.js",
   "scripts": {
