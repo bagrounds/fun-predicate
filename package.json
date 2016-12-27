@@ -1,0 +1,23 @@
+{
+  "name": "fun-predicate",
+  "version": "0.1.0",
+  "description": "Construct predicate functions that can be combined with logical operators.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/bagrounds/fun-predicate.git"
+  },
+  "keywords": [
+    "fun",
+    "predicate"
+  ],
+  "author": "bagrounds@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/bagrounds/fun-predicate/issues"
+  },
+  "homepage": "https://gitlab.com/bagrounds/fun-predicate#README"
+}
