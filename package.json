@@ -33,6 +33,7 @@
     "fun-test-runner": "^0.3.0",
     "jsdoc": "^3.4.3",
     "showdown": "^1.5.4",
+    "specifier": "^0.8.1",
     "tap": "^8.0.1"
   }
 }
