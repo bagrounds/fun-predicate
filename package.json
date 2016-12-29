@@ -7,10 +7,15 @@
     "pretest": "npm run lint",
     "test": "tap -Rtap --coverage-report=text-summary ./test/index.js",
     "coverage": "tap --coverage-report=lcov ./test/index.js",
+    "predependencies": "mkdir -p img",
+    "dependencies": "madge . --image img/dependencies.svg -x 'test|coverage|docs'",
+    "predependencies-test": "mkdir -p img",
+    "dependencies-test": "madge . --image img/dependencies-test.svg -x 'coverage|docs'",
     "pages-index": "showdown makehtml -i README.md -o public/index.html",
     "pages": "./script/pages.sh",
     "lint": "eslint --ignore-path .gitignore --fix .",
-    "document": "jsdoc --destination docs -c .jsdoc.json -r"
+    "document": "jsdoc --destination docs -c .jsdoc.json -r",
+    "readme": "cat readme/* > README.md"
   },
   "repository": {
     "type": "git",
@@ -32,6 +37,7 @@
     "fun-test": "^0.8.2",
     "fun-test-runner": "^0.3.0",
     "jsdoc": "^3.4.3",
+    "madge": "^1.4.3",
     "showdown": "^1.5.4",
     "specifier": "^0.8.1",
     "tap": "^8.0.1"
