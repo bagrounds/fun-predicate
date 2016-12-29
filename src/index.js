@@ -25,16 +25,15 @@
   Predicate.prototype.and = function (predicate) {
     var me = this
 
-    var newPredicate = function (subject) {
+    var evaluateAnd = function (subject) {
       return me.evaluate(subject) && predicate.evaluate(subject)
     }
 
-    var newName = '(' + me.evaluate.name + ') AND (' + predicate.evaluate.name +
-      ')'
+    var predicateAnd = Predicate(evaluateAnd)
 
-    newPredicate = setName(newPredicate, newName)
+    predicateAnd.toString = toStringAnd(me, predicate)
 
-    return Predicate(newPredicate)
+    return predicateAnd
   }
 
   /**
@@ -45,16 +44,15 @@
   Predicate.prototype.or = function (predicate) {
     var me = this
 
-    var newPredicate = function (subject) {
+    var evaluateOr = function (subject) {
       return me.evaluate(subject) || predicate.evaluate(subject)
     }
 
-    var newName = '(' + me.evaluate.name + ') OR (' + predicate.evaluate.name +
-      ')'
+    var predicateOr = Predicate(evaluateOr)
 
-    newPredicate = setName(newPredicate, newName)
+    predicateOr.toString = toStringOr(me, predicate)
 
-    return Predicate(newPredicate)
+    return predicateOr
   }
 
   /**
@@ -64,15 +62,15 @@
   Predicate.prototype.not = function () {
     var me = this
 
-    var newPredicate = function (subject) {
+    var evaluateNot = function (subject) {
       return !me.evaluate(subject)
     }
 
-    var newName = 'NOT(' + me.evaluate.name + ')'
+    var predicateNot = Predicate(evaluateNot)
 
-    newPredicate = setName(newPredicate, newName)
+    predicateNot.toString = toStringNot(me)
 
-    return Predicate(newPredicate)
+    return predicateNot
   }
 
   /**
@@ -108,12 +106,22 @@
     return false
   }
 
-  function setName (aFunction, newName) {
-    var description = {
-      value: newName
+  function toStringNot (a) {
+    return function toString (subject) {
+      return 'NOT(' + a.toString(subject) + ')'
     }
+  }
 
-    return Object.defineProperty(aFunction, 'name', description)
+  function toStringAnd (a, b) {
+    return function toString (subject) {
+      return '(' + a.toString(subject) + ' AND ' + b.toString(subject) + ')'
+    }
+  }
+
+  function toStringOr (a, b) {
+    return function toString (subject) {
+      return '(' + a.toString(subject) + ' OR ' + b.toString(subject) + ')'
+    }
   }
 })()
 
