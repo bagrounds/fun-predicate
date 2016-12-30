@@ -4,167 +4,195 @@
   /* imports */
   var funTest = require('fun-test')
   var funAssert = require('fun-assert')
-  var specifier = require('specifier')
-
-  var isFunction = funAssert.type('Function')
-
-  var apiSpec = {
-    evaluate: [
-      isFunction
-    ],
-    and: [
-      isFunction
-    ],
-    or: [
-      isFunction
-    ],
-    not: [
-      isFunction
-    ],
-    same: [
-      isFunction
-    ]
-  }
-
-  var apiSpecChecker = specifier(apiSpec)
 
   /* exports */
   module.exports = [
-    testConstructor(),
-    testClassMethods()
-  ]
-
-  function testConstructor () {
-    function testInput () {
-      return true
-    }
-
-    var test = funTest({
-      input: testInput,
-      verifier: function verifier (error, result) {
-        funAssert.falsey(error)
-
-        apiSpecChecker(result)
-      },
-      sync: true
-    })
-
-    test.description = 'Should construct object with full api'
-
-    return test
-  }
-
-  function testClassMethods () {
-    var test = funTest({
-      verifier: function verifier (error, Predicate) {
-        funAssert.falsey(error)
-
-        funAssert.truthy(Predicate.yes())
-        funAssert.falsey(Predicate.no())
-      },
-      transformer: transformer,
-      sync: true
-    })
-
-    test.description = 'Class methods should work properly'
-
-    return test
-
-    function transformer (funPredicate) {
-      return function () {
-        return funPredicate
-      }
-    }
-  }
-
-  module.exports = module.exports.concat([
     {
-      input: function equal5 (subject) {
-        return subject === 5
-      },
-      willPass: 5,
-      willFail: 4
-    }
-  ].map(tests))
-
-  function tests (options) {
-    var test = funTest({
-      input: options.input,
-      verifier: function (error, predicate) {
-        funAssert.falsey(error)
-
-        testPredicate(predicate, options.willPass, options.willFail)
-        testSame(predicate, options.willPass, options.willFail)
-        testNot(predicate, options.willPass, options.willFail)
-        testOr(predicate, options.willPass, options.willFail)
-        testAnd(predicate, options.willPass, options.willFail)
-      },
+      error: funAssert.truthy,
       sync: true
-    })
+    },
+    {
+      input: {
+        reference: 9,
+        compare: beGreaterThan
+      },
+      result: funAssert.type('Function'),
+      sync: true
+    },
+    {
+      input: 9,
+      result: funAssert.equal(false),
+      transformer: testPredicate({
+        reference: 9,
+        compare: beGreaterThan
+      }),
+      sync: true
+    },
+    {
+      input: 10,
+      result: funAssert.equal(true),
+      transformer: testPredicate({
+        reference: 9,
+        compare: beGreaterThan
+      }),
+      sync: true
+    },
+    {
+      input: 6,
+      result: funAssert.equal(true),
+      transformer: testMethod({
+        method: 'and',
+        r1: 5,
+        r2: 7,
+        c1: beGreaterThan,
+        c2: beLessThan
+      }),
+      sync: true
+    },
+    {
+      input: 5,
+      result: funAssert.equal(false),
+      transformer: testMethod({
+        method: 'and',
+        r1: 5,
+        r2: 7,
+        c1: beGreaterThan,
+        c2: beLessThan
+      }),
+      sync: true
+    },
+    {
+      input: 7,
+      result: funAssert.equal(false),
+      transformer: testMethod({
+        method: 'and',
+        r1: 5,
+        r2: 7,
+        c1: beGreaterThan,
+        c2: beLessThan
+      }),
+      sync: true
+    },
+    {
+      input: 6,
+      result: funAssert.equal(false),
+      transformer: testMethod({
+        method: 'or',
+        r1: 5,
+        r2: 7,
+        c1: beLessThan,
+        c2: beGreaterThan
+      }),
+      sync: true
+    },
+    {
+      input: 4,
+      result: funAssert.equal(true),
+      transformer: testMethod({
+        method: 'or',
+        r1: 5,
+        r2: 7,
+        c1: beLessThan,
+        c2: beGreaterThan
+      }),
+      sync: true
+    },
+    {
+      input: 8,
+      result: funAssert.equal(true),
+      transformer: testMethod({
+        method: 'or',
+        r1: 5,
+        r2: 7,
+        c1: beLessThan,
+        c2: beGreaterThan
+      }),
+      sync: true
+    },
+    {
+      input: 5,
+      result: funAssert.equal(true),
+      transformer: testMethod({
+        method: 'not',
+        r1: 5,
+        c1: beLessThan
+      }),
+      sync: true
+    },
+    {
+      input: 4,
+      result: funAssert.equal(false),
+      transformer: testMethod({
+        method: 'not',
+        r1: 5,
+        c1: beLessThan
+      }),
+      sync: true
+    }
+  ].map(test)
 
-    test.descriptiPass = options.input.name + ' should pass for ' +
-      options.willFail + ' and fail for ' + options.willFail
+  function beLessThan (subject, reference) {
+    return subject < reference
+  }
+
+  function beGreaterThan (subject, reference) {
+    return subject > reference
+  }
+
+  function test (options) {
+    var description = descriptionString(options)
+    var test = funTest(options)
+
+    test.description = description
 
     return test
   }
 
-  function testPredicate (predicate, willPass, willFail) {
-    console.log()
-    console.log('# test predicate')
-    assertTrueAndComment(predicate, willPass)
-    assertFalseAndComment(predicate, willFail)
+  function testPredicate (options) {
+    return function predicateFunction (predicate) {
+      return predicate(options)
+    }
   }
 
-  function testSame (predicate, willPass, willFail) {
-    console.log()
-    console.log('# test predicate.same')
-    assertTrueAndComment(predicate.same(), willPass)
-    assertFalseAndComment(predicate.same(), willFail)
+  function testMethod (options) {
+    return function method (predicate) {
+      var p1 = predicate({
+        reference: options.r1,
+        compare: options.c1
+      })
+
+      var p2
+
+      if (options.r2 && options.c2) {
+        p2 = predicate({
+          reference: options.r2,
+          compare: options.c2
+        })
+      }
+
+      var result = predicate[options.method](p1, p2)
+
+      console.log('# ' + result.toString('subject'))
+      return result
+    }
   }
 
-  function testNot (predicate, willPass, willFail) {
-    console.log()
-    console.log('# test predicate.not')
-    assertTrueAndComment(predicate.not(), willFail)
-    assertFalseAndComment(predicate.not(), willPass)
-  }
+  function descriptionString (options) {
+    if (options.input === undefined) {
+      options.input = {}
+    }
 
-  function testOr (predicate, subject) {
-    console.log()
-    console.log('# test predicate.or')
-    var p1 = predicate.not().or(predicate.not())
-    var p2 = predicate.not().or(predicate)
-    var p3 = predicate.or(predicate.not())
-    var p4 = predicate.or(predicate)
+    var assertee = options.result ? 'result' : 'error'
 
-    assertFalseAndComment(p1, subject)
-    assertTrueAndComment(p2, subject)
-    assertTrueAndComment(p3, subject)
-    assertTrueAndComment(p4, subject)
-  }
+    var assertion = options.error || options.result || funAssert.falsey
 
-  function testAnd (predicate, subject) {
-    console.log()
-    console.log('# test predicate.and')
-    var p1 = predicate.not().and(predicate.not())
-    var p2 = predicate.not().and(predicate)
-    var p3 = predicate.and(predicate.not())
-    var p4 = predicate.and(predicate)
+    var description = assertee + ': ' + assertion.toString(options.input)
+    var subject = options.transformer ? options.transformer.name : 'predicate'
+    var inputString = JSON.stringify(options.input)
 
-    assertFalseAndComment(p1, subject)
-    assertFalseAndComment(p2, subject)
-    assertFalseAndComment(p3, subject)
-    assertTrueAndComment(p4, subject)
-  }
+    description = subject + '(' + inputString + ')' + ' - ' + description
 
-  function assertTrueAndComment (predicate, subject) {
-    console.log('# true:  ' + predicate.toString(subject))
-    funAssert.truthy(predicate.evaluate(subject))
-  }
-
-  function assertFalseAndComment (predicate, subject) {
-    console.log('# false: ' + predicate.toString(subject))
-    funAssert.falsey(predicate.evaluate(subject))
+    return description
   }
 })()
 

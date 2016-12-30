@@ -1,127 +1,104 @@
 ;(function () {
   'use strict'
 
+  /* imports */
+  var funAssert = require('fun-assert')
+  var specifier = require('specifier')
+
   /* exports */
-  module.exports = Predicate
+  module.exports = predicate
+  module.exports.and = and
+  module.exports.or = or
+  module.exports.not = not
+
+  var isFunction = funAssert.type('Function')
+
+  var optionsSpec = {
+    compare: [
+      isFunction
+    ]
+  }
+
+  var optionsChecker = specifier(optionsSpec)
 
   /**
    *
-   * @param {Function} evaluate function(subject) -> Boolean
-   * @return {Object} instance of Predicate
+   * @param {Object} options all function parameters
+   * @param {*} [options.reference] to compare subject with
+   * @param {Function} options.compare function(subject, reference) -> Boolean
+   * @return {Function} predicate(subject) -> Boolean
    */
-  function Predicate (evaluate) {
-    if (!this) {
-      return new Predicate(evaluate)
-    } else {
-      this.evaluate = evaluate
+  function predicate (options) {
+    options = optionsChecker(options)
+
+    function result (subject) {
+      return options.compare(subject, options.reference)
     }
+
+    var description = ' should ' + options.compare.name
+
+    if (options.reference) {
+      description += ' ' + options.reference
+    }
+
+    result.toString = function toString (subject) {
+      return subject + description
+    }
+
+    return result
   }
 
   /**
    *
-   * @param {Function} predicate function(subject) -> Boolean
+   * @param {Function} p1 function(subject) -> Boolean
+   * @param {Function} p2 function(subject) -> Boolean
    * @return {Function} thisAndPredicate(subject) -> Boolean
    */
-  Predicate.prototype.and = function (predicate) {
-    var me = this
-
-    var evaluateAnd = function (subject) {
-      return me.evaluate(subject) && predicate.evaluate(subject)
+  function and (p1, p2) {
+    function predicateAnd (subject) {
+      return p1(subject) && p2(subject)
     }
 
-    var predicateAnd = Predicate(evaluateAnd)
-
-    predicateAnd.toString = toStringAnd(me, predicate)
+    predicateAnd.toString = function toString (subject) {
+      return '(' + p1.toString(subject) + ' AND ' + p2.toString(subject) + ')'
+    }
 
     return predicateAnd
   }
 
   /**
    *
-   * @param {Function} predicate function(subject) -> Boolean
+   * @param {Function} p1 function(subject) -> Boolean
+   * @param {Function} p2 function(subject) -> Boolean
    * @return {Function} thisOrPredicate(subject) -> Boolean
    */
-  Predicate.prototype.or = function (predicate) {
-    var me = this
-
-    var evaluateOr = function (subject) {
-      return me.evaluate(subject) || predicate.evaluate(subject)
+  function or (p1, p2) {
+    function predicateOr (subject) {
+      return p1(subject) || p2(subject)
     }
 
-    var predicateOr = Predicate(evaluateOr)
-
-    predicateOr.toString = toStringOr(me, predicate)
+    predicateOr.toString = function toString (subject) {
+      return '(' + p1.toString(subject) + ' OR ' + p2.toString(subject) + ')'
+    }
 
     return predicateOr
   }
 
   /**
    *
+   * @param {Function} predicate function(subject) -> Boolean
    * @return {Function} notPredicate(subject) -> Boolean
    */
-  Predicate.prototype.not = function () {
-    var me = this
-
-    var evaluateNot = function (subject) {
-      return !me.evaluate(subject)
+  function not (predicate) {
+    var predicateNot = function (subject) {
+      return !predicate(subject)
     }
 
-    var predicateNot = Predicate(evaluateNot)
-
-    predicateNot.toString = toStringNot(me)
+    predicateNot.toString = function toString (subject) {
+      return 'NOT(' + predicate.toString(subject) + ')'
+    }
 
     return predicateNot
-  }
-
-  /**
-   *
-   * @return {Function} notPredicate(subject) -> Boolean
-   */
-  Predicate.prototype.same = function () {
-    return this
-  }
-
-  /**
-   *
-   * @param {*} subject to evaluate
-   * @return {String} subject should predicateFunctionName
-   */
-  Predicate.prototype.toString = function toString (subject) {
-    return subject + ' should ' + this.evaluate.name
-  }
-
-  /**
-   *
-   * @return {Boolean} true
-   */
-  Predicate.yes = function () {
-    return true
-  }
-
-  /**
-   *
-   * @return {Boolean} false
-   */
-  Predicate.no = function () {
-    return false
-  }
-
-  function toStringNot (a) {
-    return function toString (subject) {
-      return 'NOT(' + a.toString(subject) + ')'
-    }
-  }
-
-  function toStringAnd (a, b) {
-    return function toString (subject) {
-      return '(' + a.toString(subject) + ' AND ' + b.toString(subject) + ')'
-    }
-  }
-
-  function toStringOr (a, b) {
-    return function toString (subject) {
-      return '(' + a.toString(subject) + ' OR ' + b.toString(subject) + ')'
-    }
   }
 })()
 
