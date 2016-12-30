@@ -13,6 +13,13 @@
     },
     {
       input: {
+        compare: beTruthy
+      },
+      result: funAssert.type('Function'),
+      sync: true
+    },
+    {
+      input: {
         reference: 9,
         compare: beGreaterThan
       },
@@ -130,6 +137,10 @@
       sync: true
     }
   ].map(test)
+
+  function beTruthy (subject) {
+    return !!subject
+  }
 
   function beLessThan (subject, reference) {
     return subject < reference
