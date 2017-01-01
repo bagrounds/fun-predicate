@@ -214,20 +214,28 @@
     {
       input: 'a digit: 8!',
       result: funAssert.equal(true),
-      transformer: function matchDigit (funPredicate) {
-        return funPredicate.match(/\d/)
-      },
+      transformer: matchDigit(),
       sync: true
     },
     {
       input: 'no digit!',
       result: funAssert.equal(false),
-      transformer: function matchDigit (funPredicate) {
-        return funPredicate.match(/\d/)
-      },
+      transformer: matchDigit(),
       sync: true
     }
   ].map(funTest)
+
+  function matchDigit () {
+    function result (funPredicate) {
+      return funPredicate.match(/\d/)
+    }
+
+    result.toString = function () {
+      return 'match(/\\d/)'
+    }
+
+    return result
+  }
 
   function beTruthy (subject) {
     return !!subject
