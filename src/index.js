@@ -161,7 +161,7 @@
   function type (type) {
     return predicate({
       reference: type,
-      compare: function equal (subject, type) {
+      compare: function beType (subject, type) {
         return typeCheck(type, subject)
       }
     })
