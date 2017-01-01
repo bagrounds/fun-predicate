@@ -204,6 +204,28 @@
         return funPredicate.type('String')
       },
       sync: true
+    },
+    {
+      input: /\d/,
+      result: funAssert.type('Function'),
+      transformer: funTransform.toMethod('match'),
+      sync: true
+    },
+    {
+      input: 'a digit: 8!',
+      result: funAssert.equal(true),
+      transformer: function matchDigit (funPredicate) {
+        return funPredicate.match(/\d/)
+      },
+      sync: true
+    },
+    {
+      input: 'no digit!',
+      result: funAssert.equal(false),
+      transformer: function matchDigit (funPredicate) {
+        return funPredicate.match(/\d/)
+      },
+      sync: true
     }
   ].map(funTest)
 

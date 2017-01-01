@@ -27,6 +27,7 @@
   module.exports.falsey = falsey()
   module.exports.equal = equal
   module.exports.type = type
+  module.exports.match = match
 
   /**
    *
@@ -162,6 +163,20 @@
       reference: type,
       compare: function equal (subject, type) {
         return typeCheck(type, subject)
+      }
+    })
+  }
+
+  /**
+   *
+   * @param {RegExp} regex to match against
+   * @return {Function} function(subject) -> {true if subject matches regex}
+   */
+  function match (regex) {
+    return predicate({
+      reference: regex,
+      compare: function match (subject, regex) {
+        return regex.test(subject)
       }
     })
   }
