@@ -3,6 +3,7 @@
 
   /* imports */
   var funAssert = require('fun-assert')
+  var stringify = require('stringify-anything')
   var specifier = require('specifier')
 
   /* exports */
@@ -35,14 +36,14 @@
       return options.compare(subject, options.reference)
     }
 
-    var description = ' should ' + options.compare.name
+    result.toString = function toString () {
+      var description = stringify(options.compare)
 
-    if (options.reference) {
-      description += ' ' + options.reference
-    }
+      if (options.reference) {
+        description += ' ' + stringify(options.reference)
+      }
 
-    result.toString = function toString (subject) {
-      return subject + description
+      return description
     }
 
     return result
@@ -59,8 +60,8 @@
       return p1(subject) && p2(subject)
     }
 
-    predicateAnd.toString = function toString (subject) {
-      return '(' + p1.toString(subject) + ' AND ' + p2.toString(subject) + ')'
+    predicateAnd.toString = function toString () {
+      return '(' + stringify(p1) + ' AND ' + stringify(p2) + ')'
     }
 
     return predicateAnd
@@ -77,8 +78,8 @@
       return p1(subject) || p2(subject)
     }
 
-    predicateOr.toString = function toString (subject) {
-      return '(' + p1.toString(subject) + ' OR ' + p2.toString(subject) + ')'
+    predicateOr.toString = function toString () {
+      return '(' + stringify(p1) + ' OR ' + stringify(p2) + ')'
     }
 
     return predicateOr
@@ -94,8 +95,8 @@
       return !predicate(subject)
     }
 
-    predicateNot.toString = function toString (subject) {
-      return 'NOT(' + predicate.toString(subject) + ')'
+    predicateNot.toString = function toString () {
+      return 'NOT(' + stringify(predicate) + ')'
     }
 
     return predicateNot
