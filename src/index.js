@@ -6,14 +6,6 @@
   var stringify = require('stringify-anything')
   var specifier = require('specifier')
 
-  /* exports */
-  module.exports = predicate
-  module.exports.and = and
-  module.exports.or = or
-  module.exports.not = not
-  module.exports.truthy = truthy()
-  module.exports.falsey = falsey()
-
   var isFunction = funAssert.type('Function')
 
   var optionsSpec = {
@@ -23,6 +15,14 @@
   }
 
   var optionsChecker = specifier(optionsSpec)
+
+  /* exports */
+  module.exports = predicate
+  module.exports.and = and
+  module.exports.or = or
+  module.exports.not = not
+  module.exports.truthy = truthy()
+  module.exports.falsey = falsey()
 
   /**
    *
@@ -109,15 +109,11 @@
    * @return {Function} truthy(subject) -> {true if subject is truthy}
    */
   function truthy () {
-    var predicate = function (subject) {
-      return !!subject
-    }
-
-    predicate.toString = function toString () {
-      return 'beTruthy'
-    }
-
-    return predicate
+    return predicate({
+      compare: function beTruthy (subject) {
+        return !!subject
+      }
+    })
   }
 
   /**
@@ -125,15 +121,11 @@
    * @return {Function} falsey(subject) -> {true if subject is falsey}
    */
   function falsey () {
-    var predicate = function (subject) {
-      return !subject
-    }
-
-    predicate.toString = function toString () {
-      return 'beFalsey'
-    }
-
-    return predicate
+    return predicate({
+      compare: function beFalsey (subject) {
+        return !subject
+      }
+    })
   }
 })()
 
