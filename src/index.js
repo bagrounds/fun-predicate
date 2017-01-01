@@ -2,13 +2,18 @@
   'use strict'
 
   /* imports */
-  var funAssert = require('fun-assert')
   var stringify = require('stringify-anything')
   var specifier = require('specifier')
   var deepEqual = require('deep-equal')
   var typeCheck = require('type-check').typeCheck
 
-  var isFunction = funAssert.type('Function')
+  var isFunction = function (something) {
+    if (typeof something !== 'function') {
+      throw new Error(stringify(something) + ' should be a function')
+    }
+
+    return something
+  }
 
   var optionsSpec = {
     compare: [

@@ -33,6 +33,7 @@
   "homepage": "https://gitlab.com/bagrounds/fun-predicate#README",
   "devDependencies": {
     "eslint": "^3.12.2",
+    "fun-assert": "^0.6.0",
     "fun-test": "^0.10.1",
     "fun-test-runner": "^0.4.1",
     "fun-transform": "^0.3.0",
@@ -43,7 +44,6 @@
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
-    "fun-assert": "^0.6.0",
     "specifier": "^0.8.1",
     "stringify-anything": "^0.2.0",
     "type-check": "^0.3.2"
