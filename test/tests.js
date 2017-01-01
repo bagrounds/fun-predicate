@@ -4,6 +4,7 @@
   /* imports */
   var funTest = require('fun-test')
   var funAssert = require('fun-assert')
+  var funTransform = require('fun-transform')
 
   /* exports */
   module.exports = [
@@ -134,6 +135,12 @@
         r1: 5,
         c1: beLessThan
       }),
+      sync: true
+    },
+    {
+      input: ' ',
+      result: funAssert.equal(true),
+      transformer: funTransform.toMethod('truthy'),
       sync: true
     }
   ].map(funTest)
