@@ -160,6 +160,12 @@
       result: funAssert.equal(false),
       transformer: funTransform.toMethod('falsey'),
       sync: true
+    },
+    {
+      input: 'a string',
+      result: funAssert.type('Function'),
+      transformer: funTransform.toMethod('equal'),
+      sync: true
     }
   ].map(funTest)
 

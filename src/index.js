@@ -5,6 +5,8 @@
   var funAssert = require('fun-assert')
   var stringify = require('stringify-anything')
   var specifier = require('specifier')
+  var deepEqual = require('deep-equal')
+  var typeCheck = require('type-check').typeCheck
 
   var isFunction = funAssert.type('Function')
 
@@ -23,6 +25,7 @@
   module.exports.not = not
   module.exports.truthy = truthy()
   module.exports.falsey = falsey()
+  module.exports.equal = equal
 
   /**
    *
@@ -124,6 +127,26 @@
     return predicate({
       compare: function beFalsey (subject) {
         return !subject
+      }
+    })
+  }
+
+  /**
+   *
+   * @param {*} reference to compare for equality
+   * @return {Function} equal(subject) -> {true if subject equal reference}
+   */
+  function equal (reference) {
+    return predicate({
+      reference: reference,
+      compare: function equal (a, b) {
+        var equal = a === b
+
+        if (typeCheck('Object|Array', reference)) {
+          equal = deepEqual(a, b)
+        }
+
+        return equal
       }
     })
   }

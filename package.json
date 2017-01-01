@@ -42,6 +42,7 @@
     "tap": "^8.0.1"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "fun-assert": "^0.5.0",
     "specifier": "^0.8.1",
     "stringify-anything": "^0.2.0"
