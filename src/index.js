@@ -12,6 +12,7 @@
   module.exports.or = or
   module.exports.not = not
   module.exports.truthy = truthy()
+  module.exports.falsey = falsey()
 
   var isFunction = funAssert.type('Function')
 
@@ -114,6 +115,22 @@
 
     predicate.toString = function toString () {
       return 'beTruthy'
+    }
+
+    return predicate
+  }
+
+  /**
+   *
+   * @return {Function} falsey(subject) -> {true if subject is falsey}
+   */
+  function falsey () {
+    var predicate = function (subject) {
+      return !subject
+    }
+
+    predicate.toString = function toString () {
+      return 'beFalsey'
     }
 
     return predicate
