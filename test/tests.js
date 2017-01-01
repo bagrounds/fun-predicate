@@ -142,6 +142,12 @@
       result: funAssert.equal(true),
       transformer: funTransform.toMethod('truthy'),
       sync: true
+    },
+    {
+      input: '',
+      result: funAssert.equal(false),
+      transformer: funTransform.toMethod('truthy'),
+      sync: true
     }
   ].map(funTest)
 
