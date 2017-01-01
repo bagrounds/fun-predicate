@@ -166,6 +166,44 @@
       result: funAssert.type('Function'),
       transformer: funTransform.toMethod('equal'),
       sync: true
+    },
+    {
+      input: 'a string',
+      result: funAssert.equal(true),
+      transformer: function equalAString (funPredicate) {
+        return funPredicate.equal('a string')
+      },
+      sync: true
+    },
+    {
+      input: 'b string',
+      result: funAssert.equal(false),
+      transformer: function equalAString (funPredicate) {
+        return funPredicate.equal('a string')
+      },
+      sync: true
+    },
+    {
+      input: 'String',
+      result: funAssert.type('Function'),
+      transformer: funTransform.toMethod('type'),
+      sync: true
+    },
+    {
+      input: 'a string',
+      result: funAssert.equal(true),
+      transformer: function typeString (funPredicate) {
+        return funPredicate.type('String')
+      },
+      sync: true
+    },
+    {
+      input: 7,
+      result: funAssert.equal(false),
+      transformer: function typeString (funPredicate) {
+        return funPredicate.type('String')
+      },
+      sync: true
     }
   ].map(funTest)
 

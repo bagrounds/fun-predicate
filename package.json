@@ -35,7 +35,7 @@
     "eslint": "^3.12.2",
     "fun-test": "^0.10.0",
     "fun-test-runner": "^0.4.1",
-    "fun-transform": "^0.2.2",
+    "fun-transform": "^0.3.0",
     "jsdoc": "^3.4.3",
     "madge": "^1.4.3",
     "showdown": "^1.5.4",

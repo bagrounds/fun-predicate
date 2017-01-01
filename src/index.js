@@ -26,6 +26,7 @@
   module.exports.truthy = truthy()
   module.exports.falsey = falsey()
   module.exports.equal = equal
+  module.exports.type = type
 
   /**
    *
@@ -147,6 +148,20 @@
         }
 
         return equal
+      }
+    })
+  }
+
+  /**
+   *
+   * @param {String} type to specify
+   * @return {Function} function(subject) -> {true if subject is type type}
+   */
+  function type (type) {
+    return predicate({
+      reference: type,
+      compare: function equal (subject, type) {
+        return typeCheck(type, subject)
       }
     })
   }
