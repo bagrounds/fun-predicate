@@ -136,7 +136,7 @@
       }),
       sync: true
     }
-  ].map(test)
+  ].map(funTest)
 
   function beTruthy (subject) {
     return !!subject
@@ -150,15 +150,6 @@
     return subject > reference
   }
 
-  function test (options) {
-    var description = descriptionString(options)
-    var test = funTest(options)
-
-    test.description = description
-
-    return test
-  }
-
   function testPredicate (options) {
     return function predicateFunction (predicate) {
       return predicate(options)
@@ -166,7 +157,7 @@
   }
 
   function testMethod (options) {
-    return function method (predicate) {
+    function method (predicate) {
       var p1 = predicate({
         reference: options.r1,
         compare: options.c1
@@ -183,27 +174,14 @@
 
       var result = predicate[options.method](p1, p2)
 
-      console.log('# ' + result.toString('subject'))
       return result
     }
-  }
 
-  function descriptionString (options) {
-    if (options.input === undefined) {
-      options.input = {}
+    method.toString = function toString () {
+      return options.method
     }
 
-    var assertee = options.result ? 'result' : 'error'
-
-    var assertion = options.error || options.result || funAssert.falsey
-
-    var description = assertee + ': ' + assertion.toString(options.input)
-    var subject = options.transformer ? options.transformer.name : 'predicate'
-    var inputString = JSON.stringify(options.input)
-
-    description = subject + '(' + inputString + ')' + ' - ' + description
-
-    return description
+    return method
   }
 })()
 
