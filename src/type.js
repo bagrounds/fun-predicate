@@ -10,6 +10,8 @@
 
   /**
    *
+   * @method module:fun-predicate.type
+   *
    * @param {String} type to specify
    * @return {Function} function(subject) -> {true if subject is type type}
    */

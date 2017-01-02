@@ -10,6 +10,8 @@
 
   /**
    *
+   * @method module:fun-predicate.or
+   *
    * @param {Function} p1 function(subject) -> Boolean
    * @param {Function} p2 function(subject) -> Boolean
    * @return {Function} thisOrPredicate(subject) -> Boolean

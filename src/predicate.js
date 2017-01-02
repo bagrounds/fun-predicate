@@ -10,6 +10,8 @@
 
   /**
    *
+   * @function module:fun-predicate.predicate
+   *
    * @param {Object} options all function parameters
    * @param {*} [options.reference] to compare subject with
    * @param {Function} options.compare function(subject, reference) -> Boolean

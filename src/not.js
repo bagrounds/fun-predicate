@@ -10,6 +10,8 @@
 
   /**
    *
+   * @method module:fun-predicate.not
+   *
    * @param {Function} p function(subject) -> Boolean
    * @return {Function} notPredicate(subject) -> Boolean
    */

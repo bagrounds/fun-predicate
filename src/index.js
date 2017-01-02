@@ -1,3 +1,7 @@
+/**
+ *
+ * @module fun-predicate
+ */
 ;(function () {
   'use strict'
 
