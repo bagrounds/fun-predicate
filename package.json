@@ -14,7 +14,8 @@
     "pages-index": "showdown makehtml -i README.md -o public/index.html",
     "pages": "./script/pages.sh",
     "lint": "eslint --ignore-path .gitignore --fix .",
-    "document": "jsdoc --destination docs -c .jsdoc.json -r",
+    "predocument": "rm -rf docs",
+    "document": "jsdoc -c .jsdoc.json",
     "readme": "cat readme/* > README.md"
   },
   "repository": {
