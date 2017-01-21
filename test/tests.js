@@ -9,44 +9,39 @@
   /* exports */
   module.exports = [
     {
-      error: funAssert.truthy,
-      sync: true
+      error: funAssert.truthy
     },
     {
-      input: {
+      input: [{
         compare: beTruthy
-      },
-      result: funAssert.type('Function'),
-      sync: true
+      }],
+      result: funAssert.type('Function')
     },
     {
-      input: {
+      input: [{
         reference: 9,
         compare: beGreaterThan
-      },
-      result: funAssert.type('Function'),
-      sync: true
+      }],
+      result: funAssert.type('Function')
     },
     {
-      input: 9,
+      input: [9],
       result: funAssert.equal(false),
       transformer: testPredicate({
         reference: 9,
         compare: beGreaterThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 10,
+      input: [10],
       result: funAssert.equal(true),
       transformer: testPredicate({
         reference: 9,
         compare: beGreaterThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 6,
+      input: [6],
       result: funAssert.equal(true),
       transformer: testMethod({
         method: 'and',
@@ -54,11 +49,10 @@
         r2: 7,
         c1: beGreaterThan,
         c2: beLessThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 5,
+      input: [5],
       result: funAssert.equal(false),
       transformer: testMethod({
         method: 'and',
@@ -66,11 +60,10 @@
         r2: 7,
         c1: beGreaterThan,
         c2: beLessThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 7,
+      input: [7],
       result: funAssert.equal(false),
       transformer: testMethod({
         method: 'and',
@@ -78,11 +71,10 @@
         r2: 7,
         c1: beGreaterThan,
         c2: beLessThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 6,
+      input: [6],
       result: funAssert.equal(false),
       transformer: testMethod({
         method: 'or',
@@ -90,11 +82,10 @@
         r2: 7,
         c1: beLessThan,
         c2: beGreaterThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 4,
+      input: [4],
       result: funAssert.equal(true),
       transformer: testMethod({
         method: 'or',
@@ -102,11 +93,10 @@
         r2: 7,
         c1: beLessThan,
         c2: beGreaterThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 8,
+      input: [8],
       result: funAssert.equal(true),
       transformer: testMethod({
         method: 'or',
@@ -114,114 +104,98 @@
         r2: 7,
         c1: beLessThan,
         c2: beGreaterThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 5,
+      input: [5],
       result: funAssert.equal(true),
       transformer: testMethod({
         method: 'not',
         r1: 5,
         c1: beLessThan
-      }),
-      sync: true
+      })
     },
     {
-      input: 4,
+      input: [4],
       result: funAssert.equal(false),
       transformer: testMethod({
         method: 'not',
         r1: 5,
         c1: beLessThan
-      }),
-      sync: true
+      })
     },
     {
-      input: ' ',
+      input: [' '],
       result: funAssert.equal(true),
-      transformer: funTransform.toMethod('truthy'),
-      sync: true
+      transformer: funTransform.toMethod('truthy')
     },
     {
-      input: '',
+      input: [''],
       result: funAssert.equal(false),
-      transformer: funTransform.toMethod('truthy'),
-      sync: true
+      transformer: funTransform.toMethod('truthy')
     },
     {
-      input: '',
+      input: [''],
       result: funAssert.equal(true),
-      transformer: funTransform.toMethod('falsey'),
-      sync: true
+      transformer: funTransform.toMethod('falsey')
     },
     {
-      input: ' ',
+      input: [' '],
       result: funAssert.equal(false),
-      transformer: funTransform.toMethod('falsey'),
-      sync: true
+      transformer: funTransform.toMethod('falsey')
     },
     {
-      input: 'a string',
+      input: ['a string'],
       result: funAssert.type('Function'),
-      transformer: funTransform.toMethod('equal'),
-      sync: true
+      transformer: funTransform.toMethod('equal')
     },
     {
-      input: 'a string',
+      input: ['a string'],
       result: funAssert.equal(true),
       transformer: function equalAString (funPredicate) {
         return funPredicate.equal('a string')
-      },
-      sync: true
+      }
     },
     {
-      input: 'b string',
+      input: ['b string'],
       result: funAssert.equal(false),
       transformer: function equalAString (funPredicate) {
         return funPredicate.equal('a string')
-      },
-      sync: true
+      }
     },
     {
-      input: 'String',
+      input: ['String'],
       result: funAssert.type('Function'),
-      transformer: funTransform.toMethod('type'),
-      sync: true
+      transformer: funTransform.toMethod('type')
     },
     {
-      input: 'a string',
+      input: ['a string'],
       result: funAssert.equal(true),
       transformer: function typeString (funPredicate) {
         return funPredicate.type('String')
-      },
-      sync: true
+      }
     },
     {
-      input: 7,
+      input: [7],
       result: funAssert.equal(false),
       transformer: function typeString (funPredicate) {
         return funPredicate.type('String')
-      },
-      sync: true
+      }
     },
     {
-      input: /\d/,
+      input: [/\d/],
       result: funAssert.type('Function'),
-      transformer: funTransform.toMethod('match'),
-      sync: true
+      transformer: funTransform.toMethod('match')
     },
     {
-      input: 'a digit: 8!',
+      input: ['a digit: 8!'],
       result: funAssert.equal(true),
-      transformer: matchDigit(),
-      sync: true
+      transformer: matchDigit()
     },
     {
-      input: 'no digit!',
+      input: ['no digit!'],
       result: funAssert.equal(false),
-      transformer: matchDigit(),
-      sync: true
+      transformer: matchDigit()
     }
   ].map(funTest)
 
