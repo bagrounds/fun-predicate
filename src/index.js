@@ -15,6 +15,9 @@
   var equal = require('./equal')
   var type = require('./type')
   var match = require('./match')
+  var fold = require('./fold')
+  var fail = require('./fail')
+  var pass = require('./pass')
 
   /* exports */
   module.exports = predicate
@@ -26,5 +29,8 @@
   module.exports.equal = equal
   module.exports.type = type
   module.exports.match = match
+  module.exports.fold = fold
+  module.exports.fail = fail
+  module.exports.pass = pass
 })()
 
