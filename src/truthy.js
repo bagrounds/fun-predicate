@@ -5,7 +5,7 @@
   var predicate = require('./predicate')
 
   /* exports */
-  module.exports = truthy()
+  module.exports = truthy
 
   /**
    *
