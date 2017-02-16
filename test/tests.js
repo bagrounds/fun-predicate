@@ -126,22 +126,22 @@
     },
     {
       input: [' '],
-      result: funAssert.equal(true),
+      result: funAssert.type('Function'),
       transformer: funTransform.toMethod('truthy')
     },
     {
       input: [''],
-      result: funAssert.equal(false),
+      result: funAssert.type('Function'),
       transformer: funTransform.toMethod('truthy')
     },
     {
       input: [''],
-      result: funAssert.equal(true),
+      result: funAssert.type('Function'),
       transformer: funTransform.toMethod('falsey')
     },
     {
       input: [' '],
-      result: funAssert.equal(false),
+      result: funAssert.type('Function'),
       transformer: funTransform.toMethod('falsey')
     },
     {
