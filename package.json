@@ -9,7 +9,7 @@
     "coverage": "tap --coverage-report=lcov ./test/index.js",
     "predependencies": "mkdir -p img",
     "dependencies": "madge . --image img/dependencies.svg -x 'test|coverage|docs' --include-npm",
-    "predependencies-test": "mkdir -p img",
+    "postdependencies": "npm run dependencies-test",
     "dependencies-test": "madge . --image img/dependencies-test.svg -x 'coverage|docs' --include-npm",
     "pages-index": "showdown makehtml -i README.md -o public/index.html",
     "pages": "./script/pages.sh",
