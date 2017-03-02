@@ -2,7 +2,7 @@
   'use strict'
 
   /* imports */
-  var predicate = require('./predicate')
+  var Predicate = require('./predicate')
 
   /* exports */
   module.exports = pass
@@ -14,10 +14,9 @@
    * @return {Function} pass(subject) -> true
    */
   function pass () {
-    return predicate({
-      compare: function pass () {
-        return true
-      }
+    return Predicate({
+      predicate: () => true,
+      toString: () => 'willPass'
     })
   }
 })()

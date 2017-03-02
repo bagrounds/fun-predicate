@@ -2,7 +2,7 @@
   'use strict'
 
   /* imports */
-  var predicate = require('./predicate')
+  var Predicate = require('./predicate')
 
   /* exports */
   module.exports = fail
@@ -14,10 +14,9 @@
    * @return {Function} fail(subject) -> false
    */
   function fail () {
-    return predicate({
-      compare: function fail () {
-        return false
-      }
+    return Predicate({
+      predicate: () => false,
+      toString: () => 'willFail'
     })
   }
 })()
