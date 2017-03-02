@@ -3,7 +3,6 @@
 
   /* imports */
   var stringify = require('stringify-anything')
-  var optionsChecker = require('./spec-options-predicate')
 
   /* exports */
   module.exports = Predicate
