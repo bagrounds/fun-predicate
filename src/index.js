@@ -14,6 +14,10 @@
   var match = require('./match')
   var fail = require('./fail')
   var pass = require('./pass')
+  var ifThenElse = require('./if-then-else')
+  var and = require('./and')
+  var or = require('./or')
+  var not = require('./not')
 
   /* exports */
   module.exports = Predicate
@@ -24,5 +28,9 @@
   module.exports.match = match
   module.exports.fail = fail
   module.exports.pass = pass
+  module.exports.ifThenElse = ifThenElse
+  module.exports.and = and
+  module.exports.or = or
+  module.exports.not = not
 })()
 
