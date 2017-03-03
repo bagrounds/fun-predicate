@@ -3,12 +3,10 @@
 
   /* imports */
   var stringify = require('stringify-anything')
+  var ifThenElse = require('./if-then-else')
 
   /* exports */
   module.exports = Predicate
-
-  const ifThenElse = module.exports.ifThenElse = (predicate, ifTrue, ifFalse) =>
-    subject => predicate(subject) ? ifTrue(subject) : ifFalse(subject)
 
   const predicate = module.exports.predicate = {
     and: (p1, p2) => subject => p1(subject) && p2(subject),
