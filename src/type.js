@@ -17,8 +17,12 @@
    */
   function type (type) {
     return Predicate({
-      predicate: subject => typeCheck(type, subject),
-      toString: () => 'isA' + type
+      predicate: function (subject) {
+        return typeCheck(type, subject)
+      },
+      toString: function () {
+        return 'isA' + type
+      }
     })
   }
 })()
