@@ -2,7 +2,7 @@
   'use strict'
 
   /* exports */
-  module.exports = and
+  module.exports = not
 
   /**
    *
