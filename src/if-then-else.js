@@ -11,6 +11,7 @@
    * @param {Function} predicate - subject -> Boolean
    * @param {Function} ifTrue - subject -> *
    * @param {Function} ifFalse - subject -> *
+   * @return {Function} subject -> *
    */
   function ifThenElse (predicate, ifTrue, ifFalse) {
     return function (subject) {

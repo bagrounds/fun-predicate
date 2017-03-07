@@ -45,8 +45,7 @@
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
-    "specifier": "^0.8.1",
-    "stringify-anything": "^0.2.0",
+    "fun-boolean": "^0.1.0",
     "type-check": "^0.3.2"
   }
 }

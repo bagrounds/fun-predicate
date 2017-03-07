@@ -1,8 +1,11 @@
 ;(function () {
   'use strict'
 
+  /* imports */
+  var deepEqual = require('deep-equal')
+
   /* exports */
-  module.exports = equal
+  module.exports = equalDeep
 
   /**
    *
@@ -11,9 +14,9 @@
    * @param {*} reference to compare for equality
    * @return {Function} equal(subject) -> {true if subject equal reference}
    */
-  function equal (reference) {
+  function equalDeep (reference) {
     return function (subject) {
-      return subject === reference
+      return deepEqual(reference, subject)
     }
   }
 })()

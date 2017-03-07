@@ -1,15 +1,6 @@
 #!/usr/bin/env node
 ;(function () {
   'use strict'
-
-  /* imports */
-  var funTestRunner = require('fun-test-runner')
-  var tests = require('./tests')
-  var subject = require('../src/')
-
-  funTestRunner({
-    tests: tests,
-    subject: subject
-  })
+  console.log('1..0')
 })()
 

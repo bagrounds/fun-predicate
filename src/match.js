@@ -1,9 +1,6 @@
 ;(function () {
   'use strict'
 
-  /* imports */
-  var Predicate = require('./predicate')
-
   /* exports */
   module.exports = match
 
@@ -15,10 +12,9 @@
    * @return {Function} function(subject) -> {true if subject matches regex}
    */
   function match (regex) {
-    return Predicate({
-      predicate: subject => regex.test(subject),
-      toString: () => 'matches/' + regex.source + '/'
-    })
+    return function (subject) {
+      return regex.test(subject)
+    }
   }
 })()
 
