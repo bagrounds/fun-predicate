@@ -9,7 +9,7 @@
 
   /**
    *
-   * @method module:fun-predicate.equal
+   * @method module:fun-predicate.equalDeep
    *
    * @param {*} reference to compare for equality
    * @return {Function} equal(subject) -> {true if subject equal reference}
