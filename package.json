@@ -43,6 +43,7 @@
     "deep-equal": "^1.0.1",
     "fun-apply": "^0.1.2",
     "fun-boolean": "^0.1.0",
+    "fun-curry": "^0.2.2",
     "type-check": "^0.3.2"
   }
 }

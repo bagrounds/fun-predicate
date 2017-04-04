@@ -11,13 +11,13 @@
    *
    * @method module:fun-predicate.type
    *
-   * @param {String} type to specify
-   * @return {Function} function(subject) -> {true if subject is type type}
+   * @param {String} type - to specify
+   * @param {*} subject - to check
+   *
+   * @return {Boolean} if subject has type
    */
-  function type (type) {
-    return function (subject) {
-      return typeCheck(type, subject)
-    }
+  function type (type, subject) {
+    return typeCheck(type, subject)
   }
 })()
 

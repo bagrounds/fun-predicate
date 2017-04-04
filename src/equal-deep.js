@@ -11,13 +11,13 @@
    *
    * @method module:fun-predicate.equalDeep
    *
-   * @param {*} reference to compare for equality
-   * @return {Function} equal(subject) -> {true if subject equal reference}
+   * @param {*} reference - to compare against
+   * @param {*} subject - to compare
+   *
+   * @return {Boolean} if subject === reference
    */
-  function equalDeep (reference) {
-    return function (subject) {
-      return deepEqual(reference, subject)
-    }
+  function equalDeep (reference, subject) {
+    return deepEqual(reference, subject)
   }
 })()
 

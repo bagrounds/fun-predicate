@@ -8,13 +8,13 @@
    *
    * @method module:fun-predicate.match
    *
-   * @param {RegExp} regex to match against
-   * @return {Function} function(subject) -> {true if subject matches regex}
+   * @param {RegExp} regex - to match against
+   * @param {String} subject - to test
+   *
+   * @return {Boolean} if subject matches regex
    */
-  function match (regex) {
-    return function (subject) {
-      return regex.test(subject)
-    }
+  function match (regex, subject) {
+    return regex.test(subject)
   }
 })()
 

@@ -12,17 +12,17 @@
    * @method module:fun-predicate.throws
    *
    * @param {Array} inputs - to feed to function
-   * @return {Function} function(input) -> {true if f throws on input}
+   * @param {Function} f - to try with inputs
+   *
+   * @return {Boolean} if f(...inputs) throws
    */
-  function throwsWith (inputs) {
-    return function (f) {
-      try {
-        apply(f, inputs)
-      } catch (error) {
-        return true
-      }
+  function throwsWith (inputs, f) {
+    try {
+      apply(f, inputs)
 
       return false
+    } catch (error) {
+      return true
     }
   }
 })()

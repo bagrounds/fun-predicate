@@ -8,13 +8,13 @@
    *
    * @method module:fun-predicate.equal
    *
-   * @param {*} reference to compare for equality
-   * @return {Function} equal(subject) -> {true if subject equal reference}
+   * @param {*} reference - to compare against
+   * @param {*} subject - to compare
+   *
+   * @return {Boolean} if subject === reference
    */
-  function equal (reference) {
-    return function (subject) {
-      return subject === reference
-    }
+  function equal (reference, subject) {
+    return subject === reference
   }
 })()
 

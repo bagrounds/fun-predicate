@@ -6,7 +6,9 @@
   'use strict'
 
   /* imports */
+  var curry = require('fun-curry')
   var bool = require('fun-boolean')
+
   var truthy = require('./truthy')
   var equal = require('./equal')
   var equalDeep = require('./equal-deep')
@@ -16,14 +18,14 @@
   var ifThenElse = require('./if-then-else')
 
   /* exports */
-  module.exports = predicate
-  module.exports.truthy = truthy
-  module.exports.equal = equal
-  module.exports.equalDeep = equalDeep
-  module.exports.type = type
-  module.exports.match = match
-  module.exports.throwsWith = throwsWith
-  module.exports.ifThenElse = ifThenElse
+  module.exports = curry(predicate)
+  module.exports.truthy = curry(truthy)
+  module.exports.equal = curry(equal)
+  module.exports.equalDeep = curry(equalDeep)
+  module.exports.type = curry(type)
+  module.exports.match = curry(match)
+  module.exports.throwsWith = curry(throwsWith)
+  module.exports.ifThenElse = curry(ifThenElse)
   module.exports.no = predicate(bool.no)
   module.exports.yes = predicate(bool.yes)
   module.exports.and = predicate(bool.and)
