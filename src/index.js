@@ -18,7 +18,7 @@
   var ifThenElse = require('./if-then-else')
 
   /* exports */
-  module.exports = curry(predicate)
+  module.exports = predicate
   module.exports.truthy = curry(truthy)
   module.exports.equal = curry(equal)
   module.exports.equalDeep = curry(equalDeep)
