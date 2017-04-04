@@ -8,11 +8,13 @@
    *
    * @method module:fun-predicate.truthy
    *
+   * @param {Boolean} bool - truthiness value
+   *
    * @return {Function} truthy(subject) -> {true if subject is truthy}
    */
-  function truthy () {
+  function truthy (bool) {
     return function (subject) {
-      return !!subject
+      return !!subject === bool
     }
   }
 })()

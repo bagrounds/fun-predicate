@@ -8,7 +8,6 @@
   /* imports */
   var bool = require('fun-boolean')
   var truthy = require('./truthy')
-  var falsey = require('./falsey')
   var equal = require('./equal')
   var equalDeep = require('./equal-deep')
   var type = require('./type')
@@ -19,7 +18,6 @@
   /* exports */
   module.exports = predicate
   module.exports.truthy = truthy
-  module.exports.falsey = falsey
   module.exports.equal = equal
   module.exports.equalDeep = equalDeep
   module.exports.type = type
