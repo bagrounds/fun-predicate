@@ -1,9 +1,6 @@
 ;(function () {
   'use strict'
 
-  /* imports*/
-  var apply = require('fun-apply')
-
   /* exports */
   module.exports = throwsWith
 
@@ -18,7 +15,7 @@
    */
   function throwsWith (inputs, f) {
     try {
-      apply(f, inputs)
+      f.apply(null, inputs)
 
       return false
     } catch (error) {
