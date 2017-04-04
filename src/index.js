@@ -6,9 +6,9 @@
   'use strict'
 
   /* imports */
-  var curry = require('fun-curry')
   var bool = require('fun-boolean')
 
+  var curry = require('./curry')
   var truthy = require('./truthy')
   var equal = require('./equal')
   var equalDeep = require('./equal-deep')
