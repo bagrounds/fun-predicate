@@ -1,20 +1,23 @@
 ;(function () {
   'use strict'
 
+  /* imports*/
+  var apply = require('fun-apply')
+
   /* exports */
-  module.exports = throws
+  module.exports = throwsWith
 
   /**
    *
    * @method module:fun-predicate.throws
    *
-   * @param {Function} f - function to check
+   * @param {Array} inputs - to feed to function
    * @return {Function} function(input) -> {true if f throws on input}
    */
-  function throws (f) {
-    return function (input) {
+  function throwsWith (inputs) {
+    return function (f) {
       try {
-        f(input)
+        apply(f, inputs)
       } catch (error) {
         return true
       }

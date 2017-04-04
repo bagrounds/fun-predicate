@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "deep-equal": "^1.0.1",
+    "fun-apply": "^0.1.2",
     "fun-boolean": "^0.1.0",
     "type-check": "^0.3.2"
   }

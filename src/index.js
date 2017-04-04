@@ -13,7 +13,7 @@
   var equalDeep = require('./equal-deep')
   var type = require('./type')
   var match = require('./match')
-  var throws = require('./throws')
+  var throwsWith = require('./throws-with')
   var ifThenElse = require('./if-then-else')
 
   /* exports */
@@ -24,7 +24,7 @@
   module.exports.equalDeep = equalDeep
   module.exports.type = type
   module.exports.match = match
-  module.exports.throws = throws
+  module.exports.throwsWith = throwsWith
   module.exports.ifThenElse = ifThenElse
   module.exports.no = predicate(bool.no)
   module.exports.yes = predicate(bool.yes)
