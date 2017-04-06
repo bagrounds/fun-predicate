@@ -12,7 +12,9 @@
   module.exports = nameFunction
 
   function nameFunction (f, args) {
-    return f.name + '(' + args.map(x => stringify(x)).join(',') + ')'
+    return f.name + '(' + args.map(function (x) {
+      return stringify(x)
+    }).join(',') + ')'
   }
 })()
 
