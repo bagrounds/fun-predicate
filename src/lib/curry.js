@@ -6,8 +6,7 @@
   'use strict'
 
   /* imports */
-  var R = require('ramda')
-  var stringify = require('stringify-anything')
+  var stringifySafe = require('json-stringify-safe')
 
   /* exports */
   module.exports = curry
@@ -21,7 +20,7 @@
         var newArgs = args.concat(Array.prototype.slice.call(arguments))
 
         return newArgs.length === arity
-          ? R.apply(f, newArgs)
+          ? f.apply(null, newArgs)
           : setProp(
             'length',
             arity - newArgs.length,
@@ -32,11 +31,19 @@
   }
 
   function partialName (f, args) {
-    return stringify(f) + '(' + stringify(args) + ')'
+    return f.name + '(' + args.map(x => stringify(x)).join(',') + ')'
   }
 
   function setProp (key, value, target) {
     return Object.defineProperty(target, key, { value: value })
+  }
+
+  function stringify (anything) {
+    return stringifySafe(anything, function (key, value) {
+      return (typeof value === 'function')
+        ? '[' + (value.name || '=>') + ']'
+        : value
+    })
   }
 })()
 
