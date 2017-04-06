@@ -6,9 +6,11 @@
   'use strict'
 
   /* imports */
-  var bool = require('fun-boolean')
-
+  var bool = require('./lib/boolean')
   var curry = require('./lib/curry')
+  var setProp = require('./lib/set-prop')
+  var nameFunction = require('./lib/name-function')
+
   var truthy = require('./truthy')
   var equal = require('./equal')
   var equalDeep = require('./equal-deep')
@@ -40,15 +42,15 @@
    * @return {Function} (s -> b1, s -> b2, ..., s -> bn) -> (s -> b)
    */
   function predicate (f) {
-    return function () {
+    return setProp('name', f.name, function () {
       var ps = Array.prototype.slice.call(arguments, 0, f.length)
 
-      return function (subject) {
+      return setProp('name', nameFunction(f, ps), function (subject) {
         return f.apply(null, ps.map(function (p) {
           return p(subject)
         }))
-      }
-    }
+      })
+    })
   }
 })()
 
