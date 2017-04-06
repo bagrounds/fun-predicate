@@ -8,7 +8,7 @@
   /* imports */
   var bool = require('fun-boolean')
 
-  var curry = require('./curry')
+  var curry = require('./lib/curry')
   var truthy = require('./truthy')
   var equal = require('./equal')
   var equalDeep = require('./equal-deep')
