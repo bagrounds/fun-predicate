@@ -20,7 +20,7 @@
       setProp('length', arity, function curried () {
         var newArgs = args.concat(Array.prototype.slice.call(arguments))
 
-        return newArgs.length === arity
+        return newArgs.length >= arity
           ? f.apply(null, newArgs)
           : setProp(
             'length',
