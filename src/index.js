@@ -18,6 +18,7 @@
   var match = require('./match')
   var throwsWith = require('./throws-with')
   var ifThenElse = require('./if-then-else')
+  var number = require('./number')
 
   /* exports */
   module.exports = predicate
@@ -33,6 +34,7 @@
   module.exports.and = predicate(bool.and)
   module.exports.or = predicate(bool.or)
   module.exports.not = predicate(bool.not)
+  module.exports.number = number
 
   /**
    *
