@@ -12,7 +12,7 @@ Construct predicate functions that can be combined with logical operators.
 
 ## [Test Coverage](https://bagrounds.gitlab.io/fun-predicate/coverage/lcov-report/index.html)
 
-## [API Docs](https://bagrounds.gitlab.io/fun-predicate/docs/index.html)
+## [API Docs](https://bagrounds.gitlab.io/fun-predicate/index.html)
 
 ## Dependencies
 

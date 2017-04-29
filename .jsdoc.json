@@ -15,8 +15,9 @@
     "monospaceLinks": false
   },
   "opts": {
-    "destination": "./docs",
-    "package": "./package.json",
-    "recurse": true
+    "destination": "public",
+    "recurse": true,
+    "template": "node_modules/docdash",
+    "readme": "README.md"
   }
 }
