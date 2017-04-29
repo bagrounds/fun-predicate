@@ -1,7 +1,3 @@
-/**
- *
- * @module fun-boolean
- */
 ;(function () {
   'use strict'
 
