@@ -9,36 +9,42 @@
  *
  * @module fun-predicate
  */
-;(function () {
+;(() => {
   'use strict'
 
   /* imports */
-  var typeCheck = require('type-check').typeCheck
-  var deepEqual = require('deep-equal')
-  var bool = require('fun-boolean')
-  var curry = require('fun-curry')
-  var apply = require('fun-apply')
-  var setProp = require('set-prop')
-  var stringify = require('stringify-anything')
+  const { inputs, output } = require('guarded')
+  const { any, bool, string, fun, regExp, arrayOf, tuple } = require('fun-type')
+  const { fold, map, repeat } = require('fun-array')
+  const typeCheck = require('type-check').typeCheck
+  const deepEqual = require('deep-equal')
+  const { not: bNot, xor: bXor, or: bOr, and: bAnd } = require('fun-boolean')
+  const curry = require('fun-curry')
+  const apply = require('fun-apply')
+  const setProp = require('set-prop')
+  const stringify = require('stringify-anything')
+  const { map: oMap, ap: oAp } = require('fun-object')
 
-  /* exports */
-  module.exports = {
-    and: curry(and),
-    or: curry(or),
-    xor: curry(xor),
-    xnor: curry(xnor),
-    not: curry(not),
-    t: t,
-    f: f,
-    truthy: truthy,
-    falsey: falsey,
-    equal: curry(equal),
-    equalDeep: curry(equalDeep),
-    type: curry(type),
-    match: curry(match),
-    throwsWith: curry(throwsWith),
-    ifThenElse: curry(ifThenElse)
-  }
+  const compose = (f, g) => (...args) => f(apply(args, g))
+
+  /**
+   * Lift a function from Booleans to a function from predicates
+   *
+   * @param {Function} f - (b1, b2, ...) -> b
+   *
+   * @return {Function} ((-> b1), (-> b2), ...) -> (-> b)
+   */
+  const lift = f => curry(setProp('name', `lift(${stringify(f)})`,
+    (...args) => {
+      const fs = args.slice(0, f.length)
+
+      return curry(setProp('name',
+        `lift(${stringify(f)})(${fs.map(stringify).join(',')})`,
+        (...args) => apply(fs.map(apply(args)), f)
+      ),
+      fs[0].length)
+    }),
+  f.length)
 
   /**
    *
@@ -51,9 +57,8 @@
    *
    * @return {*} predicate(subject) ? ifTrue(subject) : ifFalse(subject)
    */ // eslint-disable-next-line max-params
-  function ifThenElse (predicate, ifTrue, ifFalse, subject) {
-    return predicate(subject) ? ifTrue(subject) : ifFalse(subject)
-  }
+  const ifThenElse = (predicate, ifTrue, ifFalse, subject) =>
+    predicate(subject) ? ifTrue(subject) : ifFalse(subject)
 
   /**
    *
@@ -64,9 +69,7 @@
    *
    * @return {Boolean} if subject matches regex
    */
-  function match (regex, subject) {
-    return regex.test(subject)
-  }
+  const match = (regex, subject) => regex.test(subject)
 
   /**
    *
@@ -76,9 +79,7 @@
    *
    * @return {Boolean} !subject
    */
-  function falsey (subject) {
-    return !subject
-  }
+  const falsey = subject => !subject
 
   /**
    *
@@ -88,9 +89,7 @@
    *
    * @return {Boolean} !!subject
    */
-  function truthy (subject) {
-    return !!subject
-  }
+  const truthy = subject => !!subject
 
   /**
    *
@@ -101,9 +100,7 @@
    *
    * @return {Boolean} if subject === reference
    */
-  function equal (reference, subject) {
-    return subject === reference
-  }
+  const equal = (reference, subject) => subject === reference
 
   /**
    *
@@ -114,9 +111,7 @@
    *
    * @return {Boolean} if subject === reference
    */
-  function equalDeep (reference, subject) {
-    return deepEqual(reference, subject)
-  }
+  const equalDeep = (reference, subject) => deepEqual(reference, subject)
 
   /**
    *
@@ -127,7 +122,7 @@
    *
    * @return {Boolean} if f(...inputs) throws
    */
-  function throwsWith (inputs, f) {
+  const throwsWith = (inputs, f) => {
     try {
       f.apply(null, inputs)
 
@@ -146,9 +141,7 @@
    *
    * @return {Boolean} if subject has type
    */
-  function type (type, subject) {
-    return typeCheck(type, subject)
-  }
+  const type = (type, subject) => typeCheck(type, subject)
 
   /**
    *
@@ -156,9 +149,7 @@
    *
    * @return {Boolean} true
    */
-  function t () {
-    return true
-  }
+  const t = () => true
 
   /**
    *
@@ -166,9 +157,7 @@
    *
    * @return {Boolean} false
    */
-  function f () {
-    return false
-  }
+  const f = () => false
 
   /**
    *
@@ -178,9 +167,7 @@
    *
    * @return {Predicate} not(p)
    */
-  function not (p) {
-    return lift(bool.not)(p)
-  }
+  const not = lift(bNot)
 
   /**
    *
@@ -191,9 +178,7 @@
    *
    * @return {Predicate} xnor(p1, p2)
    */
-  function xnor (p1, p2) {
-    return lift(bool.equal)(p1, p2)
-  }
+  const xnor = lift(equal)
 
   /**
    *
@@ -204,9 +189,7 @@
    *
    * @return {Predicate} xor(p1, p2)
    */
-  function xor (p1, p2) {
-    return lift(bool.xor)(p1, p2)
-  }
+  const xor = lift(bXor)
 
   /**
    *
@@ -217,9 +200,7 @@
    *
    * @return {Predicate} or(p1, p2)
    */
-  function or (p1, p2) {
-    return lift(bool.or)(p1, p2)
-  }
+  const or = lift(bOr)
 
   /**
    *
@@ -230,29 +211,63 @@
    *
    * @return {Predicate} and(p1, p2)
    */
-  function and (p1, p2) {
-    return lift(bool.and)(p1, p2)
-  }
+  const and = lift(bAnd)
 
   /**
-   * Lift a function from Booleans to a function from predicates
    *
-   * @param {Function} f - (b1, b2, ...) -> b
+   * @method module:fun-predicate.all
    *
-   * @return {Function} ((-> b1), (-> b2), ...) -> (-> b)
+   * @param {Array<Function>} ps - predicates
+   *
+   * @return {Predicate} all(ps)
    */
-  function lift (f) {
-    return curry(setProp('name', 'lift(' + stringify(f) + ')', function () {
-      var fs = Array.prototype.slice.call(arguments, 0, f.length)
+  const all = fold(and, t)
 
-      var n = 'lift(' + stringify(f) + ')(' + fs.map(stringify).join(',') + ')'
+  /**
+   *
+   * @method module:fun-predicate.some
+   *
+   * @param {Array<Function>} ps - predicates
+   *
+   * @return {Predicate} some(ps)
+   */
+  const some = fold(or, f)
 
-      return curry(setProp('name', n, function () {
-        var args = Array.prototype.slice.call(arguments)
+  /**
+   *
+   * @method module:fun-predicate.none
+   *
+   * @param {Array<Function>} ps - predicates
+   *
+   * @return {Predicate} none(ps)
+   */
+  const none = compose(all, map(not))
 
-        return apply(fs.map(apply(args)), f)
-      }), fs[0].length)
-    }), f.length)
+  const api = { and, or, xor, xnor, all, some, none, not, t, f, truthy, falsey,
+    equal, equalDeep, type, match, throwsWith, ifThenElse }
+
+  const nFuns = n => tuple(repeat(n, fun))
+
+  const guards = {
+    and: compose(output(fun), inputs(nFuns(2))),
+    or: compose(output(fun), inputs(nFuns(2))),
+    xor: compose(output(fun), inputs(nFuns(2))),
+    xnor: compose(output(fun), inputs(nFuns(2))),
+    all: compose(output(fun), inputs(tuple([arrayOf(fun)]))),
+    some: compose(output(fun), inputs(tuple([arrayOf(fun)]))),
+    none: compose(output(fun), inputs(tuple([arrayOf(fun)]))),
+    not: compose(output(fun), inputs(nFuns(1))),
+    truthy: compose(output(bool), inputs(tuple([any]))),
+    falsey: compose(output(bool), inputs(tuple([any]))),
+    equal: compose(output(bool), inputs(tuple([any, any]))),
+    equalDeep: compose(output(bool), inputs(tuple([any, any]))),
+    type: compose(output(bool), inputs(tuple([string, any]))),
+    match: compose(output(bool), inputs(tuple([regExp, string]))),
+    throwsWith: compose(output(bool), inputs(tuple([arrayOf(any), fun]))),
+    ifThenElse: inputs(tuple([fun, fun, fun, any]))
   }
+
+  /* exports */
+  module.exports = oMap(curry, oAp(guards, api))
 })()
 
