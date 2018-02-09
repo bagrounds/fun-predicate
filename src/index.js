@@ -215,6 +215,17 @@
 
   /**
    *
+   * @method module:fun-predicate.implies
+   *
+   * @param {Predicate} p - premise
+   * @param {Predicate} q - conclusion
+   *
+   * @return {Predicate} p => q
+   */
+  const implies = (p, q) => or(not(p), q)
+
+  /**
+   *
    * @method module:fun-predicate.all
    *
    * @param {Array<Function>} ps - predicates
@@ -243,13 +254,14 @@
    */
   const none = compose(all, map(not))
 
-  const api = { and, or, xor, xnor, all, some, none, not, t, f, truthy, falsey,
-    equal, equalDeep, type, match, throwsWith, ifThenElse }
+  const api = { and, implies, or, xor, xnor, all, some, none, not, t, f, truthy,
+    falsey, equal, equalDeep, type, match, throwsWith, ifThenElse }
 
   const nFuns = n => tuple(repeat(n, fun))
 
   const guards = {
     and: compose(output(fun), inputs(nFuns(2))),
+    implies: compose(output(fun), inputs(nFuns(2))),
     or: compose(output(fun), inputs(nFuns(2))),
     xor: compose(output(fun), inputs(nFuns(2))),
     xnor: compose(output(fun), inputs(nFuns(2))),
